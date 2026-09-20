@@ -113,10 +113,13 @@ npm start                 # API → http://localhost:3000
 
 ```bash
 cd ../frontend
+cp .env.example .env     # optional — point VITE_API_URL at your backend
 npm install
 
 npm run dev               # UI → http://localhost:5173
 ```
+
+Done — open **http://localhost:5173**, register an account, and start chatting! 🎉
 
 Done — open **http://localhost:5173**, register an account, and start chatting! 🎉
 
@@ -137,6 +140,18 @@ Done — open **http://localhost:5173**, register an account, and start chatting
 | `OPENAI_API_KEY` | ⭕ | Fallback LLM provider key |
 | `AI_DAILY_REQUEST_LIMIT` | ⭕ | Daily AI requests per user (default `50`) |
 | `NODE_ENV` | ⭕ | `development` / `production` |
+
+### Frontend (`frontend/.env`)
+
+| Variable | Required | Description |
+|---|---|---|
+| `VITE_API_URL` | ✅ | Backend base URL (REST **and** WebSocket). Defaults to `http://localhost:3000` when not set. |
+
+### Deploying
+
+- **Backend (Render):** set `PORT`, `MONGODB_URI`, `JWT_SECRET`, `GROQ_API_KEY` (and `OPENAI_API_KEY`) as Render environment variables.
+- **CORS:** set `FRONTEND_URL` on Render to your frontend's exact origin (e.g. `https://your-frontend.vercel.app`). It defaults to `http://localhost:5173` — required for the WebSocket handshake too.
+- **Frontend (Vercel/Netlify/Render):** set `VITE_API_URL` to the deployed backend URL (e.g. `https://chat-g-qjt1.onrender.com`).
 
 ---
 
