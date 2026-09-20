@@ -151,6 +151,7 @@ Done — open **http://localhost:5173**, register an account, and start chatting
 
 - **Backend (Render):** set `PORT`, `MONGODB_URI`, `JWT_SECRET`, `GROQ_API_KEY` (and `OPENAI_API_KEY`) as Render environment variables.
 - **CORS:** set `FRONTEND_URL` on Render to your frontend's exact origin (e.g. `https://your-frontend.vercel.app`). It defaults to `http://localhost:5173` — required for the WebSocket handshake too.
+- **Auth:** the app supports two auth transports — the JWT **cookie** (same-origin) and `Authorization: Bearer <token>` (cross-origin). Login returns the token in `data.token`; the frontend stores it and attaches it to every request and the socket handshake, so a frontend hosted on a different domain works out of the box.
 - **Frontend (Vercel/Netlify/Render):** set `VITE_API_URL` to the deployed backend URL (e.g. `https://chat-g-qjt1.onrender.com`).
 
 ---
@@ -162,7 +163,7 @@ All endpoints are prefixed with `/api/v1`. Protected routes require the JWT cook
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
 | `POST` | `/auth/register` | — | Create account |
-| `POST` | `/auth/login` | — | Login (sets JWT cookie) |
+| `POST` | `/auth/login` | — | Login (sets JWT cookie **and** returns `data.token` for cross-origin use) |
 | `POST` | `/auth/logout` | ✅ | Logout |
 | `GET` | `/authme` | ✅ | Current user (session restore) |
 | `POST` | `/chat` | ✅ | Create a chat |

@@ -11,9 +11,13 @@ const {
 function initSocketServer(io) {
   io.use(async (socket, next) => {
     try {
-      const cookies = cookie.parse(socket.handshake.headers.cookie || "");
+      // token from socket handshake `auth` (cross-origin) or cookie (same-origin)
+      let token = socket.handshake.auth?.token;
 
-      const token = cookies.token;
+      if (!token) {
+        const cookies = cookie.parse(socket.handshake.headers.cookie || "");
+        token = cookies.token;
+      }
 
       if (!token) {
         return next(new Error("Authentication error: no token provided"));

@@ -16,6 +16,7 @@ export const AuthHook = () => {
 
     onSuccess: (data) => {
       // console.log("Login successful:", data);
+      localStorage.setItem("chatg_token", data.data?.token || "");
       toast.success(data.message);
       navigate("/home");
     },
@@ -50,6 +51,8 @@ export const AuthHook = () => {
 
     onSuccess: (data) => {
       toast.success(data.message || "Logout successful");
+
+      localStorage.removeItem("chatg_token");
 
       // Me ka cached user data remove
       queryClient.removeQueries({

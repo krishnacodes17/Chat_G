@@ -9,3 +9,15 @@ export const apiinstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// Attach Bearer token for cross-origin deployments (cookie is used same-origin)
+apiinstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("chatg_token");
+
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});

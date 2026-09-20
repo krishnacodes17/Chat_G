@@ -3,7 +3,14 @@ const userModel = require("../models/user.model");
 
 const authUser = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
+    // 1) cookie (same-origin) OR 2) Authorization: Bearer <token> (cross-origin)
+    let token = req.cookies.token;
+
+    const authHeader = req.headers.authorization;
+
+    if (!token && authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    }
 
     // console.log("token hai ywe ",token)
 

@@ -43,6 +43,7 @@ function MainPage() {
   };
 
   useEffect(() => {
+    socket.auth = { token: localStorage.getItem("chatg_token") || undefined };
     socket.connect();
 
     socket.on("connect", () => {
