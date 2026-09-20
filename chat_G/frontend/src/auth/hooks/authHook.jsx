@@ -17,6 +17,7 @@ export const AuthHook = () => {
     onSuccess: (data) => {
       // console.log("Login successful:", data);
       localStorage.setItem("chatg_token", data.data?.token || "");
+      queryClient.clear();
       toast.success(data.message);
       navigate("/home");
     },
